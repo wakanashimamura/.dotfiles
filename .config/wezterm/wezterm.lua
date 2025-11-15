@@ -35,6 +35,9 @@ config.color_scheme = 'Catppuccin Mocha (Gogh)'
 
 config.default_cursor_style = 'SteadyBar'
 
+--config.font      = wezterm.font 'FiraCode Nerd Font Mono'
+--config.font      = wezterm.font 'FiraCode Nerd Font'
+
 config.font      = wezterm.font 'JetBrainsMono Nerd Font'
 config.font_size = 16
 
@@ -77,15 +80,15 @@ config.colors = {
 -- └────────────────────────────────────────────────────────────────┘
 
 config.disable_default_key_bindings = true
-config.leader = { key = 'Space', mods = 'CTRL', timeout_milliseconds = 1500 }
+config.leader = { key = 'a', mods = 'ALT', timeout_milliseconds = 1500 }
 config.keys = {
  
-  { key = 'w', mods = 'LEADER', action = wezterm.action.CloseCurrentTab { confirm = true }, },
-  { key = 'u', mods = 'LEADER', action = wezterm.action.SpawnTab 'DefaultDomain'            },
+  { key = 'd', mods = 'LEADER', action = wezterm.action.CloseCurrentTab { confirm = true }, },
+  { key = 'o', mods = 'LEADER', action = wezterm.action.SpawnTab 'DefaultDomain'            },
 
-  { key = 'a', mods = 'LEADER|CTRL', action = wezterm.action.SplitHorizontal  { domain = 'CurrentPaneDomain' } },
-  { key = 's', mods = 'LEADER|CTRL', action = wezterm.action.SplitVertical    { domain = 'CurrentPaneDomain' } },
-  { key = 'w', mods = 'LEADER|CTRL', action = wezterm.action.CloseCurrentPane { confirm = true },              },
+  { key = 'm', mods = 'LEADER', action = wezterm.action.SplitHorizontal  { domain = 'CurrentPaneDomain' } },
+  { key = 'n', mods = 'LEADER', action = wezterm.action.SplitVertical    { domain = 'CurrentPaneDomain' } },
+  { key = 'u', mods = 'LEADER', action = wezterm.action.CloseCurrentPane { confirm = true },              },
   
   { key = 'h', mods = 'LEADER', action = wezterm.action.ActivatePaneDirection 'Left',  },
   { key = 'l', mods = 'LEADER', action = wezterm.action.ActivatePaneDirection 'Right', },
