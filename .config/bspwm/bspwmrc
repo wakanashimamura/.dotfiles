@@ -13,7 +13,7 @@
 # └────────────────────────────────────────────────────────────────┘
 
 # Wallpaper
-feh --no-fehbg --bg-fill $HOME/.wallpaper/sekiro.jpg
+feh --no-fehbg --bg-fill $HOME/.wallpaper/kawabi_neon.jpg
 
 # Run sxhkd daemon.
 pgrep -x sxhkd > /dev/null || sxhkd &
