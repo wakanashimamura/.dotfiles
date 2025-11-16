@@ -35,10 +35,10 @@ config.color_scheme = 'Catppuccin Mocha (Gogh)'
 
 config.default_cursor_style = 'SteadyBar'
 
---config.font      = wezterm.font 'FiraCode Nerd Font Mono'
---config.font      = wezterm.font 'FiraCode Nerd Font'
-
-config.font      = wezterm.font 'JetBrainsMono Nerd Font'
+config.font = wezterm.font_with_fallback({
+  "JetBrainsMono Nerd Font",
+  "Noto Color Emoji",
+})
 config.font_size = 16
 
 config.use_fancy_tab_bar            = false
