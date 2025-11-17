@@ -34,12 +34,12 @@ return {
       }
     })
     
-    -- Config
+    -- ──── Config ────
     vim.keymap.set('n', '<leader>fi', function()
       builtin.find_files({ cwd = "~/.config/nvim/" })
     end, { desc = "Find in config" })
 
-    -- File
+    -- ──── File ────
     vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = "Find files" })
     vim.keymap.set('n', '<leader>fg', builtin.live_grep,  { desc = "Live grep"  })
     vim.keymap.set('n', '<leader>fs', function()
@@ -50,23 +50,23 @@ return {
       builtin.grep_string({ search = filename_without_extension })
     end, { desc = "Grep current file" })
 
-    -- Vim
+    -- ──── Vim ────
     vim.keymap.set('n', '<leader>fb',  builtin.buffers,         { desc = "List buffers" })
     vim.keymap.set('n', '<leader>fo',  builtin.oldfiles,        { desc = "Recent files" })
     vim.keymap.set('n', '<leader>fhc', builtin.command_history, { desc = "Command history" })
     vim.keymap.set('n', '<leader>fhs', builtin.search_history,  { desc = "Search history" })
     vim.keymap.set('n', '<leader>fq',  builtin.quickfix,        { desc = "List quickfix" })
 
-    -- Git
+    -- ──── Git ────
     vim.keymap.set('n', '<leader>gc', builtin.git_commits,  { desc = "Git commits" })
     vim.keymap.set('n', '<leader>gb', builtin.git_bcommits, { desc = "Git buffer commits" })
     vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = "Git branches" })
     vim.keymap.set('n', '<leader>gs', builtin.git_status,   { desc = "Git status" })
 
-    -- Treesitter
+    -- ──── Treesitter ────
     vim.keymap.set('n', '<leader>tt', builtin.treesitter, { desc = "Treesitter symbols" })
 
-    -- LSP
+    -- ──── LSP ────
     vim.keymap.set('n', '<leader>ld', builtin.lsp_definitions, { desc = "LSP definitions" })
     vim.keymap.set('n', '<leader>lr', builtin.lsp_references, { desc = "LSP references" })
     vim.keymap.set('n', '<leader>li', builtin.lsp_implementations, { desc = "LSP implementations" })
