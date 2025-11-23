@@ -38,7 +38,7 @@ return {
           }
         },
 
-        filesystem = { 
+        filesystem = {
           follow_current_file = { enabled = true },
         },
         event_handlers = {
@@ -61,7 +61,7 @@ return {
     "antosha417/nvim-lsp-file-operations",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-neo-tree/neo-tree.nvim", 
+      "nvim-neo-tree/neo-tree.nvim",
     },
     config = function()
       require("lsp-file-operations").setup()

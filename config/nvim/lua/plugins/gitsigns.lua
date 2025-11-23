@@ -56,8 +56,8 @@ return {
           gitsigns.diffthis('~')
         end, { desc = "Diff this ~" })
 
-        map('n', '<leader>hQ', function() 
-          gitsigns.setqflist('all') 
+        map('n', '<leader>hQ', function()
+          gitsigns.setqflist('all')
         end, { desc = "Set QF (All Hunks)" })
 
         map('n', '<leader>hq', gitsigns.setqflist, { desc = "Set QF (Buffer Hunks)" })
@@ -68,7 +68,7 @@ return {
 
         -- ──── Text object ────
         map({'o', 'x'}, 'ih', gitsigns.select_hunk, { desc = "Select hunk" })
-      end 
+      end
     })
   end
 }

@@ -88,7 +88,7 @@ return {
     end, { desc = "Swap next function" })
     vim.keymap.set("n", "<leader>F", function()
       require("nvim-treesitter-textobjects.swap").swap_previous("@function.outer")
-    end, { desc = "Swap previous function" }) 
+    end, { desc = "Swap previous function" })
     vim.keymap.set("n", "<leader>c", function()
       require("nvim-treesitter-textobjects.swap").swap_next("@class.outer")
     end, { desc = "Swap next class" })
