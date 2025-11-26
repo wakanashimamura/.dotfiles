@@ -16,7 +16,6 @@ return {
     })
 
     require("mason-lspconfig").setup({
-      automatic_installation = true,
       ensure_installed = {
         "bashls",
         "clangd",
@@ -27,6 +26,7 @@ return {
         "lua_ls",
         "yamlls",
       },
+      automatic_enable = true,
     })
 
     require("mason-tool-installer").setup({
@@ -34,11 +34,29 @@ return {
         "clang-format",
         "cmakelang",
         "hadolint",
+        "luaformatter",
         "prettier",
         "shfmt",
         "shellcheck",
-        "stylua",
       },
     })
+
+    vim.schedule(function()
+      vim.lsp.config("lua_ls", {
+        root_markers = {
+          ".lua-format",
+          ".emmyrc.json",
+          ".luarc.json",
+          ".luarc.jsonc",
+          ".luacheckrc",
+          ".stylua.toml",
+          "stylua.toml",
+          "selene.toml",
+          "selene.yml",
+          "init.lua",
+          ".git"
+        }
+      })
+    end)
   end
 }

@@ -6,9 +6,10 @@ return {
   },
   config = function()
     vim.diagnostic.config({
-      virtual_text  = true,
-      severity_sort = true,
-      float         = {
+      virtual_text     = true,
+      severity_sort    = true,
+      update_in_insert = false,
+      float            = {
         style  = "minimal",
         border = "rounded",
         source = "if_many",
@@ -74,16 +75,6 @@ return {
         opts.desc = "Show documentation for what is under cursor"
         map("n", "K", vim.lsp.buf.hover, opts)
 
-        opts.desc = "Format buffer"
-        map("n", "<F3>", function()
-          vim.lsp.buf.format({ async = true })
-        end, opts)
-
-        opts.desc = "Format selection"
-        map("x", "<F3>", function()
-          vim.lsp.buf.format({ async = true })
-        end, opts)
-
         opts.desc = "Add workspace folder"
         map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts)
 
@@ -97,6 +88,13 @@ return {
 
         opts.desc = "Restart LSP"
         map("n", "<leader>rs", ":lsprestart<cr>", opts)
+
+        opts.desc = "toggle diagnostics in insert"
+        map("n", "<leader>ud", function()
+          local current = vim.diagnostic.config().update_in_insert
+          vim.diagnostic.config({ update_in_insert = not current })
+          vim.notify("update_in_insert = " .. tostring(not current))
+        end, opts)
       end
     })
   end
