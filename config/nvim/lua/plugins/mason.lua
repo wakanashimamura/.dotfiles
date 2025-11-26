@@ -1,17 +1,10 @@
 return {
   "mason-org/mason.nvim",
-  dependencies = {
-    "mason-org/mason-lspconfig.nvim",
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-  },
+  dependencies = { "mason-org/mason-lspconfig.nvim", "WhoIsSethDaniel/mason-tool-installer.nvim" },
   config = function()
     require("mason").setup({
       ui = {
-        icons = {
-          package_installed = "✓",
-          package_pending = "➜",
-          package_uninstalled = "✗"
-        }
+        icons = { package_installed = "✓", package_pending = "➜", package_uninstalled = "✗" }
       }
     })
 
@@ -24,9 +17,9 @@ return {
         "fish_lsp",
         "jsonls",
         "lua_ls",
-        "yamlls",
+        "yamlls"
       },
-      automatic_enable = true,
+      automatic_enable = true
     })
 
     require("mason-tool-installer").setup({
@@ -37,8 +30,8 @@ return {
         "luaformatter",
         "prettier",
         "shfmt",
-        "shellcheck",
-      },
+        "shellcheck"
+      }
     })
 
     vim.schedule(function()

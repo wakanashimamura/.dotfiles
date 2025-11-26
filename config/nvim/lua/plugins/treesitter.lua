@@ -10,11 +10,11 @@ end
 
 return {
   "nvim-treesitter/nvim-treesitter",
-  lazy    = false,
-  branch  = "main",
+  lazy = false,
+  branch = "main",
   version = false,
-  build   = ":TSUpdate",
-  event   = { "BufReadPost", "BufNewFile" },
+  build = ":TSUpdate",
+  event = { "BufReadPost", "BufNewFile" },
 
   config = function()
     local parsers = {
@@ -33,7 +33,7 @@ return {
       "markdown",
       "markdown_inline",
       "vim",
-      "vimdoc",
+      "vimdoc"
     }
 
     local treesitter = require("nvim-treesitter")
@@ -44,9 +44,7 @@ return {
       return not vim.tbl_contains(installed, parser)
     end, parsers)
 
-    if #to_install > 0 then
-      treesitter.install(to_install):await()
-    end
+    if #to_install > 0 then treesitter.install(to_install):await() end
 
     vim.api.nvim_create_autocmd({ "FileType" }, {
       callback = function(event)
@@ -62,11 +60,7 @@ return {
 
         if not vim.tbl_contains(installed, parser) then
           vim.notify("Installing parser for " .. parser, vim.log.levels.INFO)
-          treesitter.install({ parser }):await(
-            function()
-              treesitter_start(buffer, parser)
-            end
-          )
+          treesitter.install({ parser }):await(function() treesitter_start(buffer, parser) end)
           return
         end
 

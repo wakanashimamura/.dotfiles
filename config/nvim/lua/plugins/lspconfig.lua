@@ -1,29 +1,21 @@
 return {
   "neovim/nvim-lspconfig",
   event = { "BufReadPre", "BufNewFile" },
-  dependencies = {
-    { "folke/lazydev.nvim", opts = {} },
-  },
+  dependencies = { { "folke/lazydev.nvim", opts = {} } },
   config = function()
     vim.diagnostic.config({
-      virtual_text     = true,
-      severity_sort    = true,
+      virtual_text = true,
+      severity_sort = true,
       update_in_insert = false,
-      float            = {
-        style  = "minimal",
-        border = "rounded",
-        source = "if_many",
-        header = "",
-        prefix = "",
-      },
+      float = { style = "minimal", border = "rounded", source = "if_many", header = "", prefix = "" },
       signs = {
         text = {
           [vim.diagnostic.severity.ERROR] = "✘",
-          [vim.diagnostic.severity.WARN]  = "",
-          [vim.diagnostic.severity.HINT]  = "⚑",
-          [vim.diagnostic.severity.INFO]  = "»",
-        },
-      },
+          [vim.diagnostic.severity.WARN] = "",
+          [vim.diagnostic.severity.HINT] = "⚑",
+          [vim.diagnostic.severity.INFO] = "»"
+        }
+      }
     })
 
     vim.api.nvim_create_autocmd("LspAttach", {
@@ -57,14 +49,10 @@ return {
         map("n", "<leader>d", vim.diagnostic.open_float, opts)
 
         opts.desc = "Go to previous diagnostic"
-        map("n", "[d", function()
-          vim.diagnostic.jump({ count = -1, float = true })
-        end, opts)
+        map("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
 
         opts.desc = "Go to next diagnostic"
-        map("n", "]d", function()
-          vim.diagnostic.jump({ count = 1, float = true })
-        end, opts)
+        map("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
 
         opts.desc = "Signature Help"
         map("n", "gK", vim.lsp.buf.signature_help, opts)
@@ -82,9 +70,8 @@ return {
         map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts)
 
         opts.desc = "List workspace folders"
-        map("n", "<leader>wl", function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, opts)
+        map("n", "<leader>wl",
+            function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, opts)
 
         opts.desc = "Restart LSP"
         map("n", "<leader>rs", ":lsprestart<cr>", opts)
