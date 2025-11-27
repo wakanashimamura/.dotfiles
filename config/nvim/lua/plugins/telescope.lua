@@ -36,7 +36,7 @@ return {
 
     -- ──── Config ────
     vim.keymap.set('n', '<leader>fi',
-                   function() builtin.find_files({ cwd = "~/.config/nvim/" }) end,
+                   function() builtin.find_files({ cwd = vim.fn.stdpath('config') }) end,
                    { desc = "Find in config" })
 
     -- ──── File ────
