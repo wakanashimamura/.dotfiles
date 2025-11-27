@@ -58,7 +58,7 @@ return {
         map("n", "gK", vim.lsp.buf.signature_help, opts)
 
         opts.desc = "Signature Help"
-        map("i", "<c-k>", vim.lsp.buf.signature_help, opts)
+        map("i", "<c-n>", vim.lsp.buf.signature_help, opts)
 
         opts.desc = "Show documentation for what is under cursor"
         map("n", "K", vim.lsp.buf.hover, opts)
@@ -74,7 +74,7 @@ return {
             function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, opts)
 
         opts.desc = "Restart LSP"
-        map("n", "<leader>rs", ":lsprestart<cr>", opts)
+        map("n", "<leader>rs", ":LspRestart<cr>", opts)
 
         opts.desc = "toggle diagnostics in insert"
         map("n", "<leader>ud", function()
