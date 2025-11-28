@@ -3,6 +3,8 @@ fish_add_path $HOME/.local/bin
 if status is-interactive
   starship init fish | source
 
+  alias gds="gdbserver :1234"
+
   set -g fish_key_bindings fish_vi_key_bindings
   fish_config theme choose "Catppuccin Mocha"
 
