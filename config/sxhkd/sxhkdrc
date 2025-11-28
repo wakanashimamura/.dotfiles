@@ -10,10 +10,6 @@ super + Return
 super + d
   rofi -show drun -config $HOME/.config/rofi/launchers.rasi &
 
-# Launch Rofi Menu
-super + x
-  sh $HOME/.config/rofi/scripts/powermenu.sh -menu &
-
 XF86AudioPlay
     playerctl play-pause
 
