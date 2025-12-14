@@ -71,7 +71,11 @@ set packages \
   gcc \
   clang \
   openrgb \
-  spotify-launcher
+  spotify-launcher \
+  nodejs \
+  npm \
+  luarocks \
+  lua 
 
 set aur_packages nitrogen deadbeef
 
@@ -112,34 +116,48 @@ end
 function show_install_result
   for i in (seq (count $packages))
     printf "%-8s %s\n" $install_result[$i] $packages[$i]
-    sleep 0.2
+    sleep 0.08
   end
   for i in (seq (count $aur_packages))
     printf "%-8s %s\n" $aur_install_result[$i] $aur_packages[$i]
-    sleep 0.2
+    sleep 0.08
   end
   echo (set_color normal)
 end
 
+function remove_old_configs
+  for dir in ~/.dotfiles/config/*
+    set -l name (basename $dir) 
+    rm -rf ~/.config/$name
+  end
+  rm -f ~/.xinitrc
+  rm -f ~/.gtkrc-2.0
+  rm -rf ~/.icons
+  rm -rf ~/.themes
+  rm -rf ~/.wallpaper
+end
+
+function link_dotfiles
+  ln -sf ~/.dotfiles/config/* ~/.config/
+  ln -sf ~/.dotfiles/xinitrc ~/.xinitrc
+  ln -sf ~/.dotfiles/gtkrc-2.0 ~/.gtkrc-2.0
+  ln -sf ~/.dotfiles/icons/ ~/.icons
+  ln -sf ~/.dotfiles/themes/ ~/.themes
+  ln -sf ~/.dotfiles/wallpaper/ ~/.wallpaper
+end
+
 mkdir -p ~/{$default_folders}
+
+remove_old_configs
+link_dotfiles
 
 sudo pacman -Syu --noconfirm
 
 install_pacman_package
-
 yay_install
-
 install_aur_package
 
 show_install_result
 
 chsh -s /usr/bin/fish
-
 sudo ln -sf /usr/bin/wezterm /usr/bin/xterm
-
-ln -sf ~/.dotfiles/config/* ~/.config/
-ln -sf ~/.dotfiles/xinitrc ~/.xinitrc
-ln -sf ~/.dotfiles/gtkrc-2.0 ~/.gtkrc-2.0
-ln -sf ~/.dotfiles/icons/ ~/.icons
-ln -sf ~/.dotfiles/themes/ ~/.themes
-ln -sf ~/.dotfiles/wallpaper/ ~/.wallpaper
