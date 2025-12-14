@@ -1,43 +1,40 @@
-# Arch Linux Installation Guide 
+# Arch Linux Installation Guide
 
-This guide provides instructions for installing Arch Linux with disk encryption using **LVM on LUKS** and **GRUB** for **UEFI systems**.
+Personal guide.  
+Written for my own needs and system.  
+Use only after adapting it to your own configuration.
 
-## Preface
-As the installation process requires downloading packages from remote repositories, this guide assumes that you already have a working internet connection.
+### Connect to the internet
 
-Most of the information here is based on the official Arch Wiki: [Arch Wiki Installation guide](https://wiki.archlinux.org/title/Installation_guide)
+Links:
 
-Last updated: **10/14/2025** Always check the Arch Wiki for the most recent and accurate information.
-
-### Connect to the internet 
-
-For detailed instructions see:
-- [Connect to the Internet](https://wiki.archlinux.org/title/Installation_guide#Connect_to_the_internet)  
+- [Connect to the Internet](https://wiki.archlinux.org/title/Installation_guide#Connect_to_the_internet)
 - [iwctl (wireless daemon)](https://wiki.archlinux.org/title/Iwd#iwctl)
 
-#### Using `iwctl` for Wi-Fi
-
-``` text
+```text
 iwctl
+
+[iwd]#:
 device list
 station device_name scan
 station device_name get-networks
 station device_name connect SSID
 exit
+
 ping google.com
 ```
 
 ### Partition the disks
 
-For more details see: 
+Links:
+
 - [Partition the disks](https://wiki.archlinux.org/title/Installation_guide#Partition_the_disks)
 - [Partitioning tool](https://wiki.archlinux.org/title/Partitioning#Partitioning_tools)
 - [Parted](https://wiki.archlinux.org/title/Parted#Installation)
- 
-When recognized by the live system, disks are assigned to a block device such as /dev/sda, /dev/nvme0n1 or /dev/mmcblk0. To identify these devices, use [lsblk](https://wiki.archlinux.org/title/Device_file#lsblk) 
-
 
 ```bash
+lsblk #list block devices
+
 parted /dev/nvme0n1
 mklabel gpt
 mkpart "UEFI" fat32 1MiB 1025MiB
@@ -46,16 +43,14 @@ mkpart "root" ext4 1025MiB 100%
 quit
 ```
 
-
-
 ### Encrypting the Partition
 
-For more details see: 
-- [Encrypting an entire system](https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system)
+Link:
 
+- [Encrypting an entire system](https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system#Preparing_the_disk_3)
 
 ```bash
-cryptsetup luksFormat /dev/nvme0n1p2
+cryptsetup lnvme0n1uksFormat /dev/nvme0n1p2
 cryptsetup open /dev/nvme0n1p2 cryptlvm
 ```
 
@@ -80,15 +75,16 @@ mount /dev/archvg/root /mnt
 mount --mkdir /dev/nvme0n1p1 /mnt/boot
 ```
 
-### Install essential packages
+### Install packages
 
 ```bash
-pacstrap -K /mnt base linux linux-firmware base-devel lvm2 dhcpcd net-tools iproute2 iwd nvim grub efibootmgr
+pacstrap -K /mnt base linux linux-firmware base-devel lvm2 dhcpcd net-tools iproute2 iwd nvim grub efibootmgr os-prober
 ```
 
 ### Configure the system
 
-For more details see:  
+Links:
+
 - [Configure the system](https://wiki.archlinux.org/title/Installation_guide#Configure_the_system)
 - [Users and groups](https://wiki.archlinux.org/title/Users_and_groups)
 
@@ -96,7 +92,6 @@ For more details see:
 
 ```bash
 genfstab -U /mnt >> /mnt/etc/fstab
-
 arch-chroot /mnt
 ```
 
@@ -110,10 +105,10 @@ hwclock --systohc
 #### Localization
 
 ```bash
-nvim/etc/locale.gen
+nvim /etc/locale.gen
 ```
 
-Uncomment your locale (e.g. en_US.UTF-8)
+Uncomment en_US.UTF-8, uk_UA.UTF-8
 
 ```bash
 locale-gen
@@ -155,19 +150,23 @@ systemctl enable dhcpcd
 systemctl enable iwd.service
 ```
 
-#### Edit mkinitcpio.conf
+#### Configuring mkinitcpio
+
+Link:
+
+- [Configuring mkinitcpio](https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system#Configuring_mkinitcpio_3)
 
 ```bash
 nvim /etc/mkinitcpio.conf
 ```
 
-Find the line starting with HOOKS= and insert encrypt lvm2 after block, e.g.:
+Find the line starting with HOOKS= and insert sd-encrypt lvm2 after block, e.g.:
 
 ```bash
-HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt lvm2 filesystems fsck)
+HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block sd-encrypt lvm2 filesystems fsck)
 ```
 
-#### Then run
+#### Generation mkinitcpio
 
 ```bash
 mkinitcpio -P
@@ -175,9 +174,11 @@ mkinitcpio -P
 
 ### Boot loader
 
-For more details see:
+Links:
+
 - [Boot loader](https://wiki.archlinux.org/title/Arch_boot_process#Boot_loader)
 - [GRUB](https://wiki.archlinux.org/title/GRUB)
+- [Configuring the boot loader](https://wiki.archlinux.org/title/Dm-crypt/Encrypting_an_entire_system#Configuring_the_boot_loader_2)
 
 ```bash
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
@@ -187,7 +188,15 @@ nvim /etc/default/grub
 Add the following line (replace with the actual UUID from blkid)
 
 ```bash
-GRUB_CMDLINE_LINUX="cryptdevice=UUID=<UUID_OF_nvme0n1p2>:cryptlvm root=/dev/archvg/root"
+:r !blkid /dev/nvme0n1p2
+
+GRUB_CMDLINE_LINUX="rd.luks.name=device-UUID=cryptlvm root=/dev/archvg/root"
+```
+
+Uncomment the following line
+
+```bash
+GRUB_DISABLE_OS_PROBER=false
 ```
 
 Then generate the configuration
@@ -196,7 +205,7 @@ Then generate the configuration
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-###  Finally, exit and reboot:
+### Finally, exit and reboot:
 
 ```bash
 Ctrl+D
